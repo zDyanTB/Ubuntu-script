@@ -1,29 +1,46 @@
 #!/usr/bin/env bash
 # ----------------------------- Variables ----------------------------- #
-essential="libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml2:i386 libasound2-plugins:i386 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386 lutris libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 meson libsystemd-dev pkg-config ninja-build git libdbus-1-dev libinih-dev dbus-user-session build-essential"
+essential="libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml2:i386 libasound2-plugins:i386 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386 lutris libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 meson libsystemd-dev pkg-config ninja-build git libdbus-1-dev libinih-dev dbus-user-session build-essential libvulkan1 libvulkan1:i386
+"
 
-updt="sudo apt update && sudo apt upgrade"
+userApps="
+    unrar
+    unzip
+    gnome-tweaks
+    btrfs-progs
+    steam-installer
+    steam-devices
+    steam:i386
+    snapd
+"
 
-flatpak_apps="
-net.ankiweb.Anki
-com.mattjakeman.ExtensionManager 
-org.mozilla.Thunderbird 
-com.uploadedlobster.peek 
-com.usebottles.bottles 
-net.davidotek.pupgui2 
-com.rafaelmardojai.Blanket 
-org.gabmus.gfeeds 
-sh.ppy.osu 
-org.telegram.desktop 
-com.stremio.Stremio 
-com.spotify.Client 
-io.github.prateekmedia.appimagepool
-md.obsidian.Obsidian
-com.ticktick.TickTick"
+flatpakApps="
+    net.ankiweb.Anki
+    com.mattjakeman.ExtensionManager 
+    org.mozilla.Thunderbird 
+    com.uploadedlobster.peek 
+    com.usebottles.bottles 
+    net.davidotek.pupgui2 
+    com.rafaelmardojai.Blanket 
+    org.gabmus.gfeeds 
+    sh.ppy.osu 
+    org.telegram.desktop 
+    com.stremio.Stremio 
+    com.spotify.Client 
+    io.github.prateekmedia.appimagepool
+    md.obsidian.Obsidian
+    com.ticktick.TickTick
+    flathub im.riot.Riot
+    net.brinkervii.grapejuice
+"
 
 # --------------------------- Pre-install ----------------------------- #
+# Removing possible locks on apt
+sudo rm /var/lib/dpkg/lock-frontend
+sudo rm /var/cache/apt/archives/lock
+
 # Enable 32-bits librabies
-sudo dpkg --add-architecture i386 
+sudo dpkg --add-architecture i386
 
 # Install AMD MESA drivers
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
@@ -35,20 +52,20 @@ sudo apt-key add winehq.key
 sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' -y
 sudo add-apt-repository ppa:lutris-team/lutris -y
 sudo apt update
-sudo apt-get install --install-recommends winehq-staging -y
+sudo apt-get install --install-recommends winehq-staging winehq-stable wine-stable wine-stable-i386 wine-stable-amd64 -y
 
 echo '[~] Updating old system'
-$updt
+sudo apt update && sudo apt upgrade -y
 # ----------------------------- Hands on ----------------------------- #
 
 # Essential libs #
 sudo apt install $essential -y
 
 # Some essential applications #
-sudo apt install unrar unzip gnome-tweaks btrfs-progs -y
+sudo apt install $userApps -y
 
 # Flatpak packages install #
-flatpak install flathub $flatpak_apps -y
+flatpak install flathub $flatpakApps -y
 
 echo '[~] Installing user applications'
 # Some user applications #
@@ -90,7 +107,7 @@ git checkout 1.7 # omit to build the master branch
 curl -fsSL curl https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
 # ----------------------------- Pos-install ----------------------------- #
 
-$updt
+sudo apt update && sudo apt dist-upgrade -y
 flatpak update
 
 echo '[~] Script finished'
