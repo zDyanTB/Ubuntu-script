@@ -15,6 +15,11 @@ userApps="
 "
 
 flatpakApps="
+    com.parsecgaming.parsec
+    com.discordapp.Discord
+    com.github.GradienceTeam.Gradience
+    com.bitwarden.desktop
+    com.brave.Browser
     net.ankiweb.Anki
     com.mattjakeman.ExtensionManager 
     org.mozilla.Thunderbird 
@@ -69,7 +74,7 @@ flatpak install flathub $flatpakApps -y
 
 echo '[~] Installing user applications'
 # Some user applications #
-sudo apt install parsec steam motrix discord qbittorrent visual-studio-code -y
+sudo apt install steam motrix qbittorrent visual-studio-code -y
 
 # Desktop specifit configuration #
 echo '[~] Checking Desktop enviroment'
