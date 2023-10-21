@@ -1,42 +1,69 @@
 #!/usr/bin/env bash
 # ----------------------------- Variables ----------------------------- #
-essential="libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml2:i386 libasound2-plugins:i386 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386 lutris libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 meson libsystemd-dev pkg-config ninja-build git libdbus-1-dev libinih-dev dbus-user-session build-essential libvulkan1 libvulkan1:i386
+essential="
+    libgnutls30:i386
+    libldap-2.4-2:i386
+    libgpg-error0:i386
+    libxml2:i386
+    libasound2-plugins:i386
+    libsdl2-2.0-0:i386
+    libfreetype6:i386
+    libdbus-1-3:i386
+    libsqlite3-0:i386
+    libgl1-mesa-dri:i386
+    mesa-vulkan-drivers
+    mesa-vulkan-drivers:i386
+    meson
+    libsystemd-dev
+    pkg-config
+    ninja-build
+    git
+    libdbus-1-dev
+    libinih-dev
+    dbus-user-session
+    build-essential
+    libvulkan1
+    libvulkan1:i386
+    btrfs-progs
 "
+
+# Removed 
+#   snapd
+#   Lutris  - Broken
 
 userApps="
     unrar
     unzip
     gnome-tweaks
-    btrfs-progs
-    steam-installer
+    steam-installera
     steam-devices
     steam:i386
-    snapd
 "
+# Removed 
+#   Osu!            - sh.ppy.osu
+#   Blanket         - com.rafaelmardojai.Blanket
+#   Brave           - com.brave.Browser
+#   GFeeds          - org.gabmus.gfeeds
+#   Peek            - com.uploadedlobster.peek
+#   Stremio         - com.stremio.Stremio
+#   Spotify         - com.spotify.Client                    - Can be used on browser
+#   Element         - im.riot.Riot
+#   Grapejuice      - net.brinkervii.grapejuice             - Its broken for now, check out Vinegar
+#   AppImagePool    - io.github.prateekmedia.appimagepool   - Useless
+#   ProtonUp-Qt     - net.davidotek.pupgui2
 
 flatpakApps="
     com.parsecgaming.parsec
     com.discordapp.Discord
     com.github.GradienceTeam.Gradience
     com.bitwarden.desktop
-    com.brave.Browser
     net.ankiweb.Anki
     com.mattjakeman.ExtensionManager 
     org.mozilla.Thunderbird 
-    com.uploadedlobster.peek 
-    com.usebottles.bottles 
-    net.davidotek.pupgui2 
-    com.rafaelmardojai.Blanket 
-    org.gabmus.gfeeds 
-    sh.ppy.osu 
+    com.usebottles.bottles  
     org.telegram.desktop 
-    com.stremio.Stremio 
-    com.spotify.Client 
-    io.github.prateekmedia.appimagepool
     md.obsidian.Obsidian
     com.ticktick.TickTick
-    flathub im.riot.Riot
-    net.brinkervii.grapejuice
 "
 
 # --------------------------- Pre-install ----------------------------- #
