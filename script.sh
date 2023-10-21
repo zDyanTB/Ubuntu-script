@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ----------------------------- Variables ----------------------------- #
-essential="
+essentialLib="
     libgnutls30:i386
     libldap-2.4-2:i386
     libgpg-error0:i386
@@ -31,12 +31,18 @@ essential="
 #   snapd
 #   Lutris  - Broken
 
+# Added
+#   Scrcpy
+
 userApps="
+    scrcpy
     unrar
     unzip
     gnome-tweaks
     steam-installera
     steam-devices
+    steam
+    visual-studio-code
     steam:i386
 "
 # Removed 
@@ -52,7 +58,15 @@ userApps="
 #   AppImagePool    - io.github.prateekmedia.appimagepool   - Useless
 #   ProtonUp-Qt     - net.davidotek.pupgui2
 
+# Added
+#   Vinegar
+#   Motrix
+#   Qbittorrent
+
 flatpakApps="
+    org.qbittorrent.qBittorrent
+    net.agalwood.Motrix
+    io.github.vinegarhq.Vinegar
     com.parsecgaming.parsec
     com.discordapp.Discord
     com.github.GradienceTeam.Gradience
@@ -67,6 +81,7 @@ flatpakApps="
 "
 
 # --------------------------- Pre-install ----------------------------- #
+
 # Removing possible locks on apt
 sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/cache/apt/archives/lock
@@ -77,38 +92,47 @@ sudo dpkg --add-architecture i386
 # Install AMD MESA drivers
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
 
-echo '[~] Adding new system repositories'
+echo '[~] Adding wine repositories'
 
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
 sudo apt-key add winehq.key
 sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' -y
-sudo add-apt-repository ppa:lutris-team/lutris -y
 sudo apt update
 sudo apt-get install --install-recommends winehq-staging winehq-stable wine-stable wine-stable-i386 wine-stable-amd64 -y
 
 echo '[~] Updating old system'
 sudo apt update && sudo apt upgrade -y
+
 # ----------------------------- Hands on ----------------------------- #
 
 # Essential libs #
-sudo apt install $essential -y
+echo '[~] Installing essential libraries'
+sudo apt install $essentialLib -y
 
-# Some essential applications #
+# Apt packages #
+echo '[~] Installing user applications'
 sudo apt install $userApps -y
 
-# Flatpak packages install #
+# Flatpak packages #
+echo '[~] Installing flatpak applications'
 flatpak install flathub $flatpakApps -y
 
-echo '[~] Installing user applications'
-# Some user applications #
-sudo apt install steam motrix qbittorrent visual-studio-code -y
+echo '[~] Installing Feral Gamemode'
+git clone https://github.com/FeralInteractive/gamemode.git
+cd gamemode
+git checkout 1.7 # omit to build the master branch
+./bootstrap.sh
 
-# Desktop specifit configuration #
+# Installing ZAP AppImage Package manager #
+curl -fsSL https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
+
+# ------------------------- Desktop specific configuration ------------------------- #
+
 echo '[~] Checking Desktop enviroment'
 if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 
     # Gnome variables #
-    echo '[~] Installing Gnome desktop configurations'.
+    echo '[~] Adjusting Gnome desktop configurations'
     themes="/usr/share/themes"
     icons="/usr/share/icons"
 
@@ -117,26 +141,12 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
     org.gnome.Boxes
     org.gnome.Platform/x86_64/42
     "
-    
     flatpak install flathub $gnome_flatpak -y
     
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
-    echo Using KDE
+    echo '[~] Adjusting KDE desktop configurations'
 fi
 
-# Snapd apps # 
-snap install scrcpy
-
-echo '[~] Installing Feral Gamemode'
-
-# Installing Feral Gamemode #
-git clone https://github.com/FeralInteractive/gamemode.git
-cd gamemode
-git checkout 1.7 # omit to build the master branch
-./bootstrap.sh
-
-# Installing ZAP AppImage Package manager #
-curl -fsSL curl https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
 # ----------------------------- Pos-install ----------------------------- #
 
 sudo apt update && sudo apt dist-upgrade -y
