@@ -82,6 +82,9 @@ flatpakApps="
 
 # --------------------------- Pre-install ----------------------------- #
 
+# Current working directory
+SRC_DIR=$(cd $(dirname $0) && pwd)
+
 # Removing possible locks on apt
 sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/cache/apt/archives/lock
@@ -170,6 +173,13 @@ sudo flatpak override --filesystem=$HOME/.themes
 # sudo flatpak override --env=GTK_THEME=##theme## 
 #  replace ##theme## with the name of the theme you want to use and run this command:
 
+
+#   Icon themes #
+
+# Installing McMuse-Circle Icon theme
+git clone https://github.com/yeyushengfan258/McMuse-circle
+cd McMuse-circle/
+./install.sh
 
 # ----------------------------- Pos-install ----------------------------- #
 
