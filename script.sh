@@ -81,15 +81,22 @@ flatpakApps="
     com.ticktick.TickTick
 "
 
-# Implement check ROOT or USER to set paths
-# Variables and paths
-
-themesDir="/usr/share/themes"
-iconsDir="/usr/share/icons"
+# Setting variable to match SUDO scripts code
+ROOT_UID=0
 
 # Current working directory
 SRC_DIR=$(cd $(dirname $0) && pwd)
 
+# Checking ROOT and USER to set paths
+if [ "$UID" -eq "$ROOT_UID" ]; then
+    # Root user (SUDO)
+    themesDir="/usr/share/themes"
+    iconsDir="/usr/share/icons"
+else
+    # Normal User
+    themesDir="$HOME/.local/share/themes"
+    iconsDir="$HOME/.local/share/icons"
+fi
 
 # --------------------------- Pre-install ----------------------------- #
 
@@ -166,7 +173,6 @@ fi
 #
 # catppuccin-version="v0.7.0"
 # curl -L https://github.com/catppuccin/gtk/releases/download/${ctp-version}/Catppuccin-Frappe-Standard-Lavender-dark.zip -o ${themesDir}/catppuccin.zip
-
 
 
 # Tweaking theme compatible with GTK 4
