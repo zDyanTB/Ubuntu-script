@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # ----------------------------- Variables ----------------------------- #
-essentialLib="
+
+essentialLibs="
     libgnutls30:i386
     libldap-2.4-2:i386
     libgpg-error0:i386
@@ -80,19 +81,27 @@ flatpakApps="
     com.ticktick.TickTick
 "
 
-# --------------------------- Pre-install ----------------------------- #
+# Implement check ROOT or USER to set paths
+# Variables and paths
+
+themesDir="/usr/share/themes"
+iconsDir="/usr/share/icons"
 
 # Current working directory
 SRC_DIR=$(cd $(dirname $0) && pwd)
 
+
+# --------------------------- Pre-install ----------------------------- #
+
 # Removing possible locks on apt
-sudo rm /var/lib/dpkg/lock-frontend
-sudo rm /var/cache/apt/archives/lock
+sudo rm -f /var/lib/dpkg/lock-frontend /var/cache/apt/archives/lock
+# sudo rm /var/lib/dpkg/lock-frontend
+# sudo rm /var/cache/apt/archives/lock
 
 # Enable 32-bits librabies
 sudo dpkg --add-architecture i386
 
-# Install AMD MESA drivers
+# Install AMD MESA drivers repository
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
 
 echo '[~] Adding wine repositories'
@@ -104,19 +113,20 @@ sudo apt update
 sudo apt-get install --install-recommends winehq-staging winehq-stable wine-stable wine-stable-i386 wine-stable-amd64 -y
 
 echo '[~] Updating old system'
+# Error handling APT update and upgrade
 sudo apt update && sudo apt upgrade -y
 
 # ----------------------------- Hands on ----------------------------- #
 
-# Essential libs #
+# Essential libs
 echo '[~] Installing essential libraries'
-sudo apt install $essentialLib -y
+sudo apt install $essentialLibs -y
 
-# Apt packages #
+# Apt packages
 echo '[~] Installing user applications'
 sudo apt install $userApps -y
 
-# Flatpak packages #
+# Flatpak packages
 echo '[~] Installing flatpak applications'
 flatpak install flathub $flatpakApps -y
 
@@ -126,7 +136,7 @@ cd gamemode
 git checkout 1.7 # omit to build the master branch
 ./bootstrap.sh
 
-# Installing ZAP AppImage Package manager #
+# Installing ZAP AppImage Package manager
 curl -fsSL https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
 
 # ------------------------- Desktop specific configuration ------------------------- #
@@ -134,16 +144,15 @@ curl -fsSL https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
 echo '[~] Checking Desktop enviroment'
 if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 
-    # Gnome variables #
+    # Gnome-specific configurations
     echo '[~] Adjusting Gnome desktop configurations'
-    themesDir="/usr/share/themes"
-    iconsDir="/usr/share/icons"
 
-    # Gnome flatpak applications #
+    # Gnome Flatpak applications
     gnome_flatpak="
-    org.gnome.Boxes
-    org.gnome.Platform/x86_64/42
+        org.gnome.Boxes
+        org.gnome.Platform/x86_64/42
     "
+
     flatpak install flathub $gnome_flatpak -y
     
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
@@ -152,7 +161,7 @@ fi
 
 # ---------------------------- Theme install  ---------------------------- #
 
-# Prototype #
+# Prototype
 #   Script for installing catppuccin GTK seems to be broken
 #
 # catppuccin-version="v0.7.0"
@@ -160,21 +169,20 @@ fi
 
 
 
-# Tweaking theme compatible with GTK 4 #
+# Tweaking theme compatible with GTK 4
 mkdir -p "${HOME}/.config/gtk-4.0"
 ln -sf "${themesDir}/gtk-4.0/assets" "${HOME}/.config/gtk-4.0/assets"
 ln -sf "${themesDir}/gtk-4.0/gtk.css" "${HOME}/.config/gtk-4.0/gtk.css"
 ln -sf "${themesDir}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
 
-# Tweaking theme compatible with flatpak apps #
+# Tweaking theme compatible with flatpak apps
 sudo flatpak override --filesystem=$HOME/.themes
 
 # Set theme for flatpak apps
 # sudo flatpak override --env=GTK_THEME=##theme## 
 #  replace ##theme## with the name of the theme you want to use and run this command:
 
-
-#   Icon themes #
+# --------------------------- Icons --------------------------- #
 
 # Installing McMuse-Circle Icon theme
 git clone https://github.com/yeyushengfan258/McMuse-circle
@@ -187,4 +195,3 @@ sudo apt update && sudo apt dist-upgrade -y
 flatpak update
 
 echo '[~] Script finished'
-# ---------------------------------------------------------------------- #
