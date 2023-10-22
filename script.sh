@@ -133,8 +133,8 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 
     # Gnome variables #
     echo '[~] Adjusting Gnome desktop configurations'
-    themes="/usr/share/themes"
-    icons="/usr/share/icons"
+    themesDir="/usr/share/themes"
+    iconsDir="/usr/share/icons"
 
     # Gnome flatpak applications #
     gnome_flatpak="
@@ -146,6 +146,30 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
     echo '[~] Adjusting KDE desktop configurations'
 fi
+
+# ---------------------------- Theme install  ---------------------------- #
+
+# Prototype #
+#   Script for installing catppuccin GTK seems to be broken
+#
+# catppuccin-version="v0.7.0"
+# curl -L https://github.com/catppuccin/gtk/releases/download/${ctp-version}/Catppuccin-Frappe-Standard-Lavender-dark.zip -o ${themesDir}/catppuccin.zip
+
+
+
+# Tweaking theme compatible with GTK 4 #
+mkdir -p "${HOME}/.config/gtk-4.0"
+ln -sf "${themesDir}/gtk-4.0/assets" "${HOME}/.config/gtk-4.0/assets"
+ln -sf "${themesDir}/gtk-4.0/gtk.css" "${HOME}/.config/gtk-4.0/gtk.css"
+ln -sf "${themesDir}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
+
+# Tweaking theme compatible with flatpak apps #
+sudo flatpak override --filesystem=$HOME/.themes
+
+# Set theme for flatpak apps
+# sudo flatpak override --env=GTK_THEME=##theme## 
+#  replace ##theme## with the name of the theme you want to use and run this command:
+
 
 # ----------------------------- Pos-install ----------------------------- #
 
