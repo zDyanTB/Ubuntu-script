@@ -246,5 +246,5 @@ echo '[~] Script finished'
 echo '[~] Please Logout to apply'
 
 echo '[~] Backup your gnome-extensions settings and then run this command'
-echo "dconf load /org/gnome/shell/extensions/ < <settings.dconf> || dconf dump / > <settings.dconf>"
+echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
 
