@@ -31,6 +31,8 @@ essentialLibs="
     libvulkan1:i386
     btrfs-progs
     curl
+    wget
+    jq
 "
 
 # Removed 
@@ -167,6 +169,7 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
         org.gnome.Platform/x86_64/42
     "
 
+    sudo apt install -y gnome-extensions 
     flatpak install flathub "$gnome_flatpak" -y
     
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
