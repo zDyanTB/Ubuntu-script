@@ -92,7 +92,7 @@ flatpakApps="
 ROOT_UID=0
 
 # Current working directory
-SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
+# SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Checking ROOT and USER to set paths
 if [ "$UID" -eq "$ROOT_UID" ]; then
@@ -105,8 +105,8 @@ else
     iconsDir="$HOME/.local/share/icons"
 fi
 
-EXTENSIONS_PATH="$HOME/.local/share/gnome-shell/extensions/"
-~/.config/gnome-shell/extensions/
+# EXTENSIONS_PATH="$HOME/.local/share/gnome-shell/extensions/"
+# ~/.config/gnome-shell/extensions/
 # --------------------------- Pre-install ----------------------------- #
 
 # Removing possible locks on apt
@@ -163,15 +163,47 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
     # Gnome-specific configurations
     echo '[~] Adjusting Gnome desktop configurations'
 
+
+
     # Gnome Flatpak applications
-    gnome_flatpak="
+    gnomeFlatpakApps="
         org.gnome.Boxes
         org.gnome.Platform/x86_64/42
     "
 
+    # 3193  Blur my shell
+    # 4679  Burn my windows
+    # 4839  Clipboard history
+    # 1732  GTK Title bar
+    # 4630  No Titlebar when maximized
+    # 750   Open Weather
+    # 3843  Just perfection
+    # 1852  Gamemode
+    # 307   Dash-to-Dock
+    gnomeExtensions="
+        3193
+        4679
+        4839
+        1732
+        4630
+        750
+        5105
+        307
+        1852
+        3843
+    "
+
+
     sudo apt install -y gnome-extensions 
-    flatpak install flathub "$gnome_flatpak" -y
-    
+    flatpak install flathub "$gnomeFlatpakApps" -y
+
+    echo '[~] Installing extensions'
+    # Script for auto installing gnome extensions
+    # https://github.com/ToasterUwU/install-gnome-extensions
+    rm -f ./install-gnome-extensions.sh; wget -N -q "https://raw.githubusercontent.com/ToasterUwU/install-gnome-extensions/master/install-gnome-extensions.sh" -O ./install-gnome-extensions.sh && chmod +x install-gnome-extensions.sh
+
+    ./install-gnome-extensions.sh --enable "$gnomeExtensions"
+
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
     echo '[~] Adjusting KDE desktop configurations'
 fi
@@ -211,3 +243,4 @@ sudo apt update && sudo apt dist-upgrade -y
 flatpak update
 
 echo '[~] Script finished'
+echo '[~] Please Logout to apply'
