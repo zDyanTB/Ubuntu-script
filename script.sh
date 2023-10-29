@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Bash error handling
+set -euo pipefail
+
 # ----------------------------- Variables ----------------------------- #
 
 essentialLibs="
@@ -26,6 +30,7 @@ essentialLibs="
     libvulkan1
     libvulkan1:i386
     btrfs-progs
+    curl
 "
 
 # Removed 
@@ -81,11 +86,11 @@ flatpakApps="
     com.ticktick.TickTick
 "
 
-# Setting variable to match SUDO scripts code
+# Setting variable to match SUDO ENV variable code inside the script
 ROOT_UID=0
 
 # Current working directory
-SRC_DIR=$(cd $(dirname $0) && pwd)
+SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Checking ROOT and USER to set paths
 if [ "$UID" -eq "$ROOT_UID" ]; then
@@ -98,6 +103,8 @@ else
     iconsDir="$HOME/.local/share/icons"
 fi
 
+EXTENSIONS_PATH="$HOME/.local/share/gnome-shell/extensions/"
+~/.config/gnome-shell/extensions/
 # --------------------------- Pre-install ----------------------------- #
 
 # Removing possible locks on apt
@@ -127,19 +134,19 @@ sudo apt update && sudo apt upgrade -y
 
 # Essential libs
 echo '[~] Installing essential libraries'
-sudo apt install $essentialLibs -y
+sudo apt install "$essentialLibs" -y
 
 # Apt packages
 echo '[~] Installing user applications'
-sudo apt install $userApps -y
+sudo apt install "$userApps" -y
 
 # Flatpak packages
 echo '[~] Installing flatpak applications'
-flatpak install flathub $flatpakApps -y
+flatpak install flathub "$flatpakApps" -y
 
 echo '[~] Installing Feral Gamemode'
 git clone https://github.com/FeralInteractive/gamemode.git
-cd gamemode
+cd gamemode || exit
 git checkout 1.7 # omit to build the master branch
 ./bootstrap.sh
 
@@ -160,7 +167,7 @@ if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
         org.gnome.Platform/x86_64/42
     "
 
-    flatpak install flathub $gnome_flatpak -y
+    flatpak install flathub "$gnome_flatpak" -y
     
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
     echo '[~] Adjusting KDE desktop configurations'
@@ -182,7 +189,7 @@ ln -sf "${themesDir}/gtk-4.0/gtk.css" "${HOME}/.config/gtk-4.0/gtk.css"
 ln -sf "${themesDir}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
 
 # Tweaking theme compatible with flatpak apps
-sudo flatpak override --filesystem=$HOME/.themes
+sudo flatpak override --filesystem="$HOME"/.themes || echo "Flatpak theme install exit with error."
 
 # Set theme for flatpak apps
 # sudo flatpak override --env=GTK_THEME=##theme## 
@@ -192,7 +199,7 @@ sudo flatpak override --filesystem=$HOME/.themes
 
 # Installing McMuse-Circle Icon theme
 git clone https://github.com/yeyushengfan258/McMuse-circle
-cd McMuse-circle/
+cd McMuse-circle/ || exit
 ./install.sh
 
 # ----------------------------- Pos-install ----------------------------- #
