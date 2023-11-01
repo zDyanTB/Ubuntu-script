@@ -7,7 +7,7 @@ set -euo pipefail
 
 essentialLibs="
     libgnutls30:i386
-    libldap-common
+    libldap-2.4-2:i386
     libgpg-error0:i386
     libxml2:i386
     libasound2-plugins:i386
@@ -47,8 +47,10 @@ userApps="
     unrar
     unzip
     gnome-tweaks
+    steam-installera
     steam-devices
     steam
+    visual-studio-code
     steam:i386
 "
 # Removed 
@@ -68,7 +70,6 @@ userApps="
 #   Vinegar
 #   Motrix
 #   Qbittorrent
-#   VSCode
 
 flatpakApps="
     org.qbittorrent.qBittorrent
@@ -85,7 +86,6 @@ flatpakApps="
     org.telegram.desktop 
     md.obsidian.Obsidian
     com.ticktick.TickTick
-    com.visualstudio.code
 "
 
 # Setting variable to match SUDO ENV variable code inside the script
@@ -122,23 +122,15 @@ sudo add-apt-repository ppa:kisak/kisak-mesa -y
 
 echo '[~] Adding wine repositories'
 
-sudo mkdir -pm755 /etc/apt/keyrings
-sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-
-sudo apt install --install-recommends winehq-stable wine-stable wine-stable-i386 wine-stable-amd64 -y
+wget -nc https://dl.winehq.org/wine-builds/winehq.key
+sudo apt-key add winehq.key
+sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' -y
+sudo apt update
+sudo apt-get install --install-recommends winehq-staging winehq-stable wine-stable wine-stable-i386 wine-stable-amd64 -y
 
 echo '[~] Updating old system'
 # Error handling APT update and upgrade
 sudo apt update && sudo apt upgrade -y
-
-# Installing flatpak
-sudo apt install flatpak
-sudo add-apt-repository ppa:flatpak/stable
-sudo apt update
-sudo apt install flatpak
-sudo apt install gnome-software-plugin-flatpak
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
 
 # ----------------------------- Hands on ----------------------------- #
 
@@ -255,8 +247,13 @@ echo '[~] Please Logout to apply'
 
 echo '[~] Backup your gnome-extensions settings and then run this command'
 <<<<<<< HEAD
+<<<<<<< HEAD
 echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
 
 =======
 echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
 >>>>>>> b09eab3 (Added instructions to install gnome-extensions settings.)
+=======
+echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
+
+>>>>>>> 83f91de (Added instructions to install gnome-extensions settings.)
