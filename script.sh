@@ -7,7 +7,7 @@ set -euo pipefail
 
 essentialLibs="
     libgnutls30:i386
-    libldap-2.4-2:i386
+    libldap-common
     libgpg-error0:i386
     libxml2:i386
     libasound2-plugins:i386
@@ -47,10 +47,8 @@ userApps="
     unrar
     unzip
     gnome-tweaks
-    steam-installera
     steam-devices
     steam
-    visual-studio-code
     steam:i386
 "
 # Removed 
@@ -70,6 +68,7 @@ userApps="
 #   Vinegar
 #   Motrix
 #   Qbittorrent
+#   VSCode
 
 flatpakApps="
     org.qbittorrent.qBittorrent
@@ -86,6 +85,7 @@ flatpakApps="
     org.telegram.desktop 
     md.obsidian.Obsidian
     com.ticktick.TickTick
+    com.visualstudio.code
 "
 
 # Setting variable to match SUDO ENV variable code inside the script
@@ -131,6 +131,15 @@ sudo apt-get install --install-recommends winehq-staging winehq-stable wine-stab
 echo '[~] Updating old system'
 # Error handling APT update and upgrade
 sudo apt update && sudo apt upgrade -y
+
+# Installing flatpak
+sudo apt install flatpak
+sudo add-apt-repository ppa:flatpak/stable
+sudo apt update
+sudo apt install flatpak
+sudo apt install gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
 
 # ----------------------------- Hands on ----------------------------- #
 
