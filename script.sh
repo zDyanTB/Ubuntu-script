@@ -246,5 +246,9 @@ echo '[~] Script finished'
 echo '[~] Please Logout to apply'
 
 echo '[~] Backup your gnome-extensions settings and then run this command'
+<<<<<<< HEAD
 echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
 
+=======
+echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
+>>>>>>> b09eab3 (Added instructions to install gnome-extensions settings.)
