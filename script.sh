@@ -241,14 +241,13 @@ sudo flatpak override --filesystem="$HOME"/.themes || echo "Flatpak theme instal
 
 # Installing McMuse-Circle Icon theme
 git clone https://github.com/yeyushengfan258/McMuse-circle
-cd McMuse-circle/ || exit
-./install.sh
+cd McMuse-circle/ && ./install.sh
 
 # ----------------------------- Pos-install ----------------------------- #
 
 sudo apt update && sudo apt dist-upgrade -y
-flatpak update
-sudo apt autoremove
+flatpak update -y
+sudo apt autoremove -y 
 
 echo '[~] Script finished'
 echo '[~] Please Logout to apply'
