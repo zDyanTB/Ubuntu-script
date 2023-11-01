@@ -118,6 +118,7 @@ sudo rm -f /var/lib/dpkg/lock-frontend /var/cache/apt/archives/lock
 sudo dpkg --add-architecture i386
 
 # Install AMD MESA drivers repository
+
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
 
 echo '[~] Adding wine repositories'
@@ -144,15 +145,15 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 
 # Essential libs
 echo '[~] Installing essential libraries'
-sudo apt install "$essentialLibs" -y
+sudo apt install $essentialLibs -y
 
 # Apt packages
 echo '[~] Installing user applications'
-sudo apt install "$userApps" -y
+sudo apt install $userApps -y
 
 # Flatpak packages
 echo '[~] Installing flatpak applications'
-flatpak install flathub "$flatpakApps" -y
+flatpak install flathub $flatpakApps -y
 
 echo '[~] Installing Feral Gamemode'
 git clone https://github.com/FeralInteractive/gamemode.git
@@ -249,19 +250,10 @@ cd McMuse-circle/ || exit
 
 sudo apt update && sudo apt dist-upgrade -y
 flatpak update
+sudo apt autoremove
 
 echo '[~] Script finished'
 echo '[~] Please Logout to apply'
 
 echo '[~] Backup your gnome-extensions settings and then run this command'
-<<<<<<< HEAD
-<<<<<<< HEAD
 echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
-
-=======
-echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
->>>>>>> b09eab3 (Added instructions to install gnome-extensions settings.)
-=======
-echo "dconf load /org/gnome/shell/extensions/ < settings.dconf || dconf load / < settings.dconf"
-
->>>>>>> 83f91de (Added instructions to install gnome-extensions settings.)
