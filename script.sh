@@ -122,9 +122,6 @@ cd gamemode
 git checkout 1.8.1 # omit to build the master branch
 ./bootstrap.sh
 
-# Installing ZAP AppImage Package manager
-curl -fsSL https://raw.githubusercontent.com/srevinsaju/zap/main/install.sh | sh
-
 # ------------------------- Desktop specific configuration ------------------------- #
 
 echo '[~] Checking Desktop enviroment'
