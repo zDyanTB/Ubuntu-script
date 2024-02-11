@@ -44,17 +44,6 @@ userApps="
     steam
     steam:i386
 "
-# Removed 
-#   Blanket         - com.rafaelmardojai.Blanket
-#   Spotify         - com.spotify.Client                    - Can be used on browser
-#   Element         - 
-
-# Added
-#   Vinegar
-#   Motrix
-#   Qbittorrent
-#   VSCode
-
 flatpakApps="
     org.qbittorrent.qBittorrent
     net.agalwood.Motrix
@@ -86,8 +75,6 @@ ROOT_UID=0
 
 # Removing possible locks on apt
 sudo rm -f /var/lib/dpkg/lock-frontend /var/cache/apt/archives/lock
-# sudo rm /var/lib/dpkg/lock-frontend
-# sudo rm /var/cache/apt/archives/lock
 
 # Enable 32-bits librabies
 sudo dpkg --add-architecture i386
@@ -131,8 +118,8 @@ flatpak install flathub $flatpakApps -y
 
 echo '[~] Installing Feral Gamemode'
 git clone https://github.com/FeralInteractive/gamemode.git
-cd gamemode || exit
-git checkout 1.7 # omit to build the master branch
+cd gamemode
+git checkout 1.8.1 # omit to build the master branch
 ./bootstrap.sh
 
 # Installing ZAP AppImage Package manager
