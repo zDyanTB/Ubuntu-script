@@ -1,21 +1,20 @@
-# Ubuntu-script
+# <center>Ubuntu-script</center>
 Ubuntu like distros pos-script
 
-#   TODO
+#   <center>TODO</center>
 ## Functions
 
-Echo formated
-Prompt for input
-Silent installation
-Install by parameters
-Error handling
-Check dependencies
-Correct sudo permissions
+- Echo formated  
+- Prompt for input  
+- Silent installation  
+- Install by parameters  
+- Error handling  
+- Check dependencies  
+- Correct sudo permissions  
 
 ## Add to installation
 
-ZSH - Powerlevel10K
-Spicetify
-Opera
-Flatseal
-Hidamari
+- Starship  
+- Spicetify  
+- Betterdiscord  
+- Flatseal  
