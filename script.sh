@@ -33,10 +33,6 @@ essentialLibs="
     jq
 "
 
-# Removed 
-#   snapd
-#   Lutris  - Broken
-
 # Added
 #   Scrcpy
 
@@ -44,23 +40,14 @@ userApps="
     scrcpy
     unrar
     unzip
-    gnome-tweaks
     steam-devices
     steam
     steam:i386
 "
 # Removed 
-#   Osu!            - sh.ppy.osu
 #   Blanket         - com.rafaelmardojai.Blanket
-#   Brave           - com.brave.Browser
-#   GFeeds          - org.gabmus.gfeeds
-#   Peek            - com.uploadedlobster.peek
-#   Stremio         - com.stremio.Stremio
 #   Spotify         - com.spotify.Client                    - Can be used on browser
-#   Element         - im.riot.Riot
-#   Grapejuice      - net.brinkervii.grapejuice             - Its broken for now, check out Vinegar
-#   AppImagePool    - io.github.prateekmedia.appimagepool   - Useless
-#   ProtonUp-Qt     - net.davidotek.pupgui2
+#   Element         - 
 
 # Added
 #   Vinegar
@@ -71,19 +58,18 @@ userApps="
 flatpakApps="
     org.qbittorrent.qBittorrent
     net.agalwood.Motrix
-    io.github.vinegarhq.Vinegar
-    com.parsecgaming.parsec
     com.discordapp.Discord
     com.github.GradienceTeam.Gradience
     com.bitwarden.desktop
     net.ankiweb.Anki
-    com.mattjakeman.ExtensionManager 
     org.mozilla.Thunderbird 
     com.usebottles.bottles  
     org.telegram.desktop 
     md.obsidian.Obsidian
     com.ticktick.TickTick
     com.visualstudio.code
+    com.spotify.Client
+    im.riot.Riot
 "
 
 # Setting variable to match SUDO ENV variable code inside the script
@@ -92,19 +78,10 @@ ROOT_UID=0
 # Current working directory
 # SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-# Checking ROOT and USER to set paths
-if [ "$UID" -eq "$ROOT_UID" ]; then
-    # Root user (SUDO)
-    themesDir="/usr/share/themes"
-    iconsDir="/usr/share/icons"
-else
-    # Normal User
-    themesDir="$HOME/.local/share/themes"
-    iconsDir="$HOME/.local/share/icons"
-fi
+# User paths
+    themesDir="$HOME/.themes"
+    iconsDir="$HOME/.icons"
 
-# EXTENSIONS_PATH="$HOME/.local/share/gnome-shell/extensions/"
-# ~/.config/gnome-shell/extensions/
 # --------------------------- Pre-install ----------------------------- #
 
 # Removing possible locks on apt
@@ -135,7 +112,6 @@ sudo apt install flatpak
 sudo add-apt-repository ppa:flatpak/stable
 sudo apt update
 sudo apt install flatpak
-sudo apt install gnome-software-plugin-flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 
